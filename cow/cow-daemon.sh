@@ -1,6 +1,6 @@
 #!/bin/sh
 # Monitor the config dir of cow, restart cow service when any config file is modified.
-# @ inotify-tools
+# @ inotify-tools::inotifywait
 
 CFG_DIR=/etc/cow/
 SERVICE=/etc/init.d/cow
