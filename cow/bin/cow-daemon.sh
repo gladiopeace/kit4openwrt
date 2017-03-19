@@ -1,12 +1,13 @@
 #!/bin/sh
-# @inotify-tools
+# Monitor the config dir of cow, restart cow service when any config file is modified.
+# @ inotify-tools
 
-ETC_DIR=/etc/cow/
+CFG_DIR=/etc/cow/
 SERVICE=/etc/init.d/cow
 SLEEP=3
 
 while true; do
-  inotifywait -e modify -r $ETC_DIR &&
+  inotifywait -e modify -r $CFG_DIR &&
     $SERVICE restart
   sleep $SLEEP
 done
