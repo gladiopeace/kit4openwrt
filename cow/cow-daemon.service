@@ -1,0 +1,28 @@
+#!/bin/sh /etc/rc.common
+# Put this file in /etc/init.d/ and modify it if needed.
+# @ procps-pkill::pgrep
+
+START=95
+STOP=10
+
+COW_DAEMON=/usr/bin/cow-daemon
+PID_DIR=/var/run
+PID_FILE=$PID_DIR/cow-daemon.pid
+
+start() {
+  if [[ ! -e $PID_FILE ]]; then
+    $COW_DAEMON >/dev/null 2>&1 &
+    echo $! > $PID_FILE
+  fi
+}
+
+stop() {
+  if [[ -f $PID_FILE ]]; then
+    read PID <$PID_FILE
+    pgrep -P $PID >>$PID_FILE
+    for p in $(cat $PID_FILE); do
+      kill $p
+    done
+    rm -f $PID_FILE
+  fi
+}
